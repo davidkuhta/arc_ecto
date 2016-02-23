@@ -16,15 +16,11 @@ defmodule Arc.Ecto.Model do
         %{__meta__: _} -> changeset_or_model
       end
 
-      arc_params = case changeset_or_model do
-        %{action: nil} -> %{}
-        _ ->
-          params
+      arc_params = params
           |> Arc.Ecto.Model.convert_params_to_binary
           |> Dict.take(fields)
           |> Enum.map(fn({field, file}) -> {field, {file, scope}} end)
           |> Enum.into(%{})
-      end
 
       cast(changeset_or_model, arc_params, fields)
     end
