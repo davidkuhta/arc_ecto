@@ -16,9 +16,9 @@ defmodule Arc.Ecto.Model do
         %{__meta__: _} -> changeset_or_model
       end
 
-      arc_params = case params do
-        %{nil} -> %{}
-        %{} ->
+      arc_params = case changeset_or_model do
+        %{action: nil} -> %{}
+        _ ->
           params
           |> Arc.Ecto.Model.convert_params_to_binary
           |> Dict.take(fields)
