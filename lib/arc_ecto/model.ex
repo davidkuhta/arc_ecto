@@ -17,6 +17,7 @@ defmodule Arc.Ecto.Model do
       end
 
       arc_params = case params do
+        %{nil} -> %{}
         %{} ->
           params
           |> Arc.Ecto.Model.convert_params_to_binary
