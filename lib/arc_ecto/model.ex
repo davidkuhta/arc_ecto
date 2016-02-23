@@ -17,7 +17,6 @@ defmodule Arc.Ecto.Model do
       end
 
       arc_params = case params do
-        :invalid -> :invalid
         %{} ->
           params
           |> Arc.Ecto.Model.convert_params_to_binary
