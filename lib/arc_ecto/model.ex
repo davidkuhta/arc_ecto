@@ -10,12 +10,6 @@ defmodule Arc.Ecto.Model do
                         params: params,
                         fields: fields] do
 
-      # If given a changeset, apply the changes to obtain the underlying model
-      scope = case changeset_or_model do
-        %Ecto.Changeset{} -> Ecto.Changeset.apply_changes(changeset_or_model)
-        %{__meta__: _} -> changeset_or_model
-      end
-
       arc_params = case changeset_or_model do
         %{action: nil} -> %{}
         _ ->
@@ -24,6 +18,12 @@ defmodule Arc.Ecto.Model do
           |> Dict.take(fields)
           |> Enum.map(fn({field, file}) -> {field, {file, scope}} end)
           |> Enum.into(%{})
+      end
+      
+      # If given a changeset, apply the changes to obtain the underlying model
+      scope = case changeset_or_model do
+        %Ecto.Changeset{} -> Ecto.Changeset.apply_changes(changeset_or_model)
+        %{__meta__: _} -> changeset_or_model
       end
 
       cast(changeset_or_model, arc_params, fields)
